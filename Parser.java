@@ -2,9 +2,8 @@ import java.util.*;
 
 public class Parser {
                 public static void main(String[]args) {
-                    
 					HashMap<String, String> map = new HashMap<String, String>();
-				    Start test = new Start();
+				        Start test = new Start();
 					
 					map = test.doParse(args);
 					System.out.println(test.getValue(map, "test"));
@@ -17,12 +16,10 @@ class Start {
 		int firstChar, endChar;
 				
 		for(int i=0; i < args.length; i+=2) {
-			
 			firstChar = 0;
 			endChar = args[i].length();
 			
 			if(i == 0) {
-			
 				for(int j = 0; j < 2; j++) {
 					if(args[i].charAt(j) == '/') {
 						firstChar = j + 1;
@@ -30,7 +27,6 @@ class Start {
 					}
 					else if (args[i].charAt(j) == '-')
 						firstChar ++;	
-					
 				}
 			
 			}
