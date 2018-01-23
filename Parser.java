@@ -3,11 +3,12 @@ import java.util.*;
 public class Parser {
 	public static void main(String[]args) {
 		HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
-		ArrayList values = new ArrayList();
 		Start test = new Start();
+		ArrayList<String> value = new ArrayList<String>();
 		
 		map = test.doParse(args);
 		test.printAll(map);
+		value = test.getValue(map, "test");
 	}
 }
 
@@ -16,22 +17,19 @@ class Start {
 		HashMap<String, ArrayList<String>> parameters = new HashMap<String, ArrayList<String>>();
 		HashMap<Integer,String> allParam = new HashMap<Integer,String>();
 		HashMap<String,String> allValues = new HashMap<String,String>();
-		String param = new String();
-		int firstChar = 0, endChar, paramCount = 0, valuesCount = 0;
+		int paramCount = 0, valuesCount = 0;
 		
 		for(int i = 0; i < args.length; i++) {
-			if (args[i].startsWith("--") || args[i].startsWith("-") || args[i].startsWith("/")) {
+			if (args[i].startsWith("-") || args[i].startsWith("/")) {
+				int firstChar = 0, endChar;
 				paramCount++;
 				valuesCount = 0;
 				
-				param = args[i].replace("-", "");
+				String param = args[i].replace("-", "");
 				param = param.replace("/", "");
-				allParam.put(paramCount, param);
 				
 				if(param.indexOf(":") != -1 || param.indexOf("=") != -1) {
-					endChar = param.indexOf(":");
-					if(endChar == -1)
-						endChar = param.indexOf("=");
+					endChar = getEndOfParamStr(param);
 					valuesCount++;
 					allValues.put(paramCount + "_" + valuesCount, param.substring(endChar + 1, param.length()));
 					param = param.substring(firstChar, endChar); 
@@ -46,7 +44,7 @@ class Start {
 		Iterator<Map.Entry<Integer, String>> iteratorParam = allParam.entrySet().iterator();
 		
 		while (iteratorParam.hasNext()) {
-			ArrayList values = new ArrayList();
+			ArrayList<String> values = new ArrayList<String>();
 			Map.Entry<Integer, String> pairPar = iteratorParam.next();
 			Integer keyPar = pairPar.getKey();
 			String valuePar = pairPar.getValue();
@@ -64,14 +62,12 @@ class Start {
 		return parameters;
 	}
 	
-	public ArrayList<String> getValue (HashMap<String, ArrayList<String>> parameters, String paramName) {		
-		if(parameters.get(paramName) != null)
-			return parameters.get(paramName);
-		else
-			return null;
+	
+	public ArrayList<String> getValue (HashMap<String, ArrayList<String>> parameters, String paramName) {
+		return parameters.get(paramName);
 	}
 	
-	public void printAll(HashMap<String, ArrayList<String>> parameters) {
+	public void printAll (HashMap<String, ArrayList<String>> parameters) {
 		Iterator<Map.Entry<String, ArrayList<String>>> iterator = parameters.entrySet().iterator();
 		
 		while (iterator.hasNext()) {
@@ -81,8 +77,14 @@ class Start {
 			System.out.println("Parameter: " + param);
 			System.out.println("Values:");
 			
-			for(String str : values)
-				System.out.println(str);
+			for(String s : values)
+				System.out.println(s);
 		}
+	}
+	private int getEndOfParamStr (String param) {
+		int endChar = param.indexOf(":");
+		if(endChar == -1)
+			endChar = param.indexOf("=");
+		return endChar;
 	}
 }
