@@ -1,9 +1,9 @@
 import java.util.*;
 
-public class Parser {
+public class Start {
 	public static void main(String[]args) {
 		HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
-		Start test = new Start();
+		Parser test = new Parser();
 		ArrayList<String> value = new ArrayList<String>();
 		
 		map = test.Parse(args);
@@ -12,7 +12,7 @@ public class Parser {
 	}
 }
 
-class Start {
+class Parser {
 	public HashMap<String, ArrayList<String>> Parse (String[]args) {
 		HashMap<String, ArrayList<String>> parameters = new HashMap<String, ArrayList<String>>();
 		HashMap<Integer,String> allParam = new HashMap<Integer,String>();
